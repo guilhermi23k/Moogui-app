@@ -25,6 +25,10 @@ export default function Routes(){
             component={LogIn}
             options={{headerShown: false }}
             />
+
         </Stack.Navigator>
+
+        
+
     )
 }

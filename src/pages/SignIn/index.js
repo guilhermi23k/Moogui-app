@@ -1,9 +1,41 @@
-import React from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-
+import { useState, useEffect } from 'react';
 import * as Animatable from 'react-native-animatable';
 
 export default function SignIn() {
+
+    const [email, setEmail] = useState("");
+    const [username, setUserame] = useState("");
+    const [password, setPassword] = useState("");
+    const [phone, setPhone] = useState("");
+
+
+    useEffect(()=>{
+        // getListUser();
+    }, []);
+
+    const createNewUser = () => {
+        fetch(`http://192.168.1.12:8081/users`, {
+            method: "POST",
+            body: JSON.stringify({
+                "email": email,
+                "name": username,
+                "password": password,
+                "phone": phone
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type' : 'application/json'
+            }
+        }).then(res =>{
+            return res.json()
+        }).then(res => {
+            console.log(res)
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
+    
     return (
         <View style={styles.container}>
             <Animatable.View animation="fadeInLeft" delay={500} style={styles.containerHeader}>
@@ -13,7 +45,6 @@ export default function SignIn() {
                             style={{ width: '100%' }}
                             resizeMode="contain"
                     />
-
                 </View>
                 <Text style={styles.message}>Welcome</Text>
             </Animatable.View>
@@ -23,24 +54,44 @@ export default function SignIn() {
                 <TextInput 
                 placeholder='Type an Email'
                 style={styles.input}
+                value={email}
+                onChangeText={(text) =>{
+                    setEmail(text);
+                }}
                 />
                 <Text style={styles.title}>Username</Text>
                 <TextInput 
                 placeholder='Type your username'
                 style={styles.input}
+                value={username}
+                onChangeText={(text) =>{
+                    setUserame(text);
+                }}
+                />
+                <Text style={styles.title}>Phone</Text>
+                <TextInput 
+                placeholder='phone'
+                style={styles.input}
+                value={phone}
+                onChangeText={(text) =>{
+                    setPhone(text);
+                }}
                 />
                 <Text style={styles.title}>Password</Text>
                 <TextInput 
                 placeholder='Type your password'
                 style={styles.input}
+                value={password}
+                onChangeText={(text) =>{
+                    setPassword(text);
+                }}
                 />
-                <Text style={styles.title}>Confirm Password</Text>
+                {/* <Text style={styles.title}>Confirm Password</Text>
                 <TextInput 
                 placeholder='Confirm your password'
                 style={styles.input}
-                />
-
-                <TouchableOpacity style={styles.button}>
+                /> */}
+                <TouchableOpacity style={styles.button} onPress={createNewUser}>
                     <Text style={styles.buttonText}>Criar Conta</Text>
                 </TouchableOpacity>    
             </Animatable.View>

@@ -1,9 +1,27 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-
 import * as Animatable from 'react-native-animatable';
 
 export default function LogIn() {
+
+
+    useEffect(()=>{
+        // getListUser();
+    }, [])
+
+    const getListUser = (id) => {
+        fetch(`http://192.168.1.12:8081/users`, {
+            method: "GET"
+        }).then(res =>{
+            return res.json()
+        }).then(res => {
+            console.log(res)
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
+
+
     return (
         <View style={styles.container}>
             <Animatable.View animation="fadeInLeft" delay={500} style={styles.containerHeader}>
@@ -22,20 +40,19 @@ export default function LogIn() {
                 <Text style={styles.title}>Email</Text>
                 <TextInput 
                 placeholder='Type your Email'
-                style={styles.input}
-                />
+                style={styles.input}/>
+
                 <Text style={styles.title}>Password</Text>
                 <TextInput 
                 placeholder='Type your password'
-                style={styles.input}
-                />
+                style={styles.input}/>
 
                 <TouchableOpacity style={styles.title}>
                 <Text style={styles.forgotPassText}>Forgot your password?</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}>Entrar</Text>
+                    <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>    
             </Animatable.View>
         </View>
